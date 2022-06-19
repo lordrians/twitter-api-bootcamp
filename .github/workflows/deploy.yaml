@@ -15,7 +15,7 @@ jobs:
           java-version: '17'
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
-          heroku_api_key:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "twitter-api-bootcamp"
           heroku_email: "ferrianrp@gmail.com"
 
