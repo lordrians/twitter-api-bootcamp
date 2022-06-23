@@ -16,14 +16,20 @@ class TweetController {
     @Autowired
     lateinit var tweetService: TweetService
 
+    @Autowired
+    lateinit var successMapper: SuccessToResMapper
+
+    @Autowired
+    lateinit var errorMapper: ErrorToResMapper
+
     @GetMapping
     fun getAll() =
         when(val result = tweetService.getAll()){
             is Result.Success -> {
-                SuccessToResMapper().map(result)
+                successMapper.map(result)
             }
             is Result.Error -> {
-                ErrorToResMapper().map(result.error.message)
+                errorMapper.map(result.error.message)
             }
         }
 
@@ -33,10 +39,10 @@ class TweetController {
     ) =
         when(val result = tweetService.getById(id)){
             is Result.Success -> {
-                SuccessToResMapper().map(result)
+                successMapper.map(result)
             }
             is Result.Error -> {
-                ErrorToResMapper().map(result.error.message)
+                errorMapper.map(result.error.message)
             }
         }
 
@@ -46,10 +52,10 @@ class TweetController {
     ) =
         when(val result = tweetService.add(tweet)){
             is Result.Success -> {
-                SuccessToResMapper().map(result)
+                successMapper.map(result)
             }
             is Result.Error -> {
-                ErrorToResMapper().map(result.error.message)
+                errorMapper.map(result.error.message)
             }
         }
 
@@ -59,10 +65,10 @@ class TweetController {
     ) =
         when(val result = tweetService.update(tweet)){
             is Result.Success -> {
-                SuccessToResMapper().map(result)
+                successMapper.map(result)
             }
             is Result.Error -> {
-                ErrorToResMapper().map(result.error.message)
+                errorMapper.map(result.error.message)
             }
         }
 
@@ -72,10 +78,10 @@ class TweetController {
     ) =
         when(val result = tweetService.delete(id)){
             is Result.Success -> {
-                SuccessToResMapper().map(result)
+                successMapper.map(result)
             }
             is Result.Error -> {
-                ErrorToResMapper().map(result.error.message)
+                errorMapper.map(result.error.message)
             }
         }
 }

@@ -19,14 +19,6 @@ class TweetRepositoryImpl: TweetRepository {
 
     private val listTweet : MutableList<Tweet> = mutableListOf()
 
-    init {
-        listTweet += mutableListOf(
-            Tweet("1","Halo ges",System.currentTimeMillis()),
-            Tweet("2","Kenapa ges",System.currentTimeMillis()),
-            Tweet("3","Gapapa ges",System.currentTimeMillis())
-        )
-    }
-
     private fun tweetCollection(): MongoCollection<Tweet> =
         databaseComponent.database.getDatabase("twitter").getCollection()
 

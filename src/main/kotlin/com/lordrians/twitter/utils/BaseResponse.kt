@@ -1,21 +1,12 @@
 package com.lordrians.twitter.utils
 
+import org.springframework.stereotype.Component
+
 data class BaseResponse<T>(
     val status: Boolean,
     val message: String,
     val data: T
 )
-
-data class ResponseSuccess<T>(
-    val status: Boolean = true,
-    val data: T
-)
-
-data class ResponseError<T>(
-    val status: Boolean = false,
-    val message: String
-)
-
 fun <T> tryCatch(
     codeBlock: () -> Result<T>
 ): Result<T> =
@@ -36,13 +27,11 @@ val <T> Result<T>.data : T
         is Result.Error -> throw error
     }
 
-val <T> Result<T>.error : Exception
-    get() = (this as Result.Error).error
-
 abstract class Mapper<SourceType,ResultType>{
     abstract fun map(dataModel: SourceType): ResultType
 }
 
+@Component
 class SuccessToResMapper : Mapper<Result<Any>,BaseResponse<Any>>(){
     override fun map(dataModel: Result<Any>): BaseResponse<Any> {
         return BaseResponse(
@@ -53,6 +42,7 @@ class SuccessToResMapper : Mapper<Result<Any>,BaseResponse<Any>>(){
     }
 }
 
+@Component
 class ErrorToResMapper : Mapper<String?,BaseResponse<String>>(){
     override fun map(dataModel: String?): BaseResponse<String> {
         return BaseResponse(
